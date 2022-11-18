@@ -36,7 +36,7 @@ const ages = [
     {value : "40-50",label :"From 40 to 50"},
 ]
 
-const Form = () => {
+const PhoneMessageForm = () => {
 
     const classes = useStyles();
     const [values,setValues] = useState<Values>({
@@ -66,4 +66,4 @@ const Form = () => {
     );
 }
 
-export default Form;
+export default PhoneMessageForm;
