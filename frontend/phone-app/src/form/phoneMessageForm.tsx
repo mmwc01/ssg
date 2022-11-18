@@ -26,31 +26,38 @@ const useStyles = makeStyles(() => createStyles({
 }))
 
 type Values = {
-    name : string,
-    email : string,
-    age : string,
+    phoneNumber : string,
+    message : string,
 }
-
-const ages = [
-    {value : "20-40",label :"From 20 to 40"},
-    {value : "40-50",label :"From 40 to 50"},
-]
 
 const PhoneMessageForm = () => {
 
     const classes = useStyles();
     const [values,setValues] = useState<Values>({
-        name : "",
-        email : "",
-        age : "",
+        phoneNumber : "",
+        message : "",
     });
 
     const handleChange = (event : React.ChangeEvent<HTMLInputElement>) => {
         setValues({...values,[event.target.name] : event.target.value});
     }
 
-    const handleSubmit = (event : React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+        try {
+          let res = await fetch("https://httpbin.org/post", { //change url here when API is up and running
+            method: "POST",
+            body: JSON.stringify(values),
+          });
+          let resJson = await res.json();
+          if (res.status === 200) {
+            console.log('success!');
+          } else {
+            console.log('Some error occured');
+          }
+        } catch (err) {
+          console.log(err);
+        }
         console.log(values)
     }
 
