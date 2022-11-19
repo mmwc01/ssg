@@ -16,7 +16,8 @@ const useStyles = makeStyles(() => createStyles({
         left : "50%",
         transform : "translate(-50%,-50%)",
         padding : 30,
-        textAlign : "center"
+        textAlign : "center",
+        maxWidth: 300
     },
     title : {
         margin:"0px 0 20px 0"

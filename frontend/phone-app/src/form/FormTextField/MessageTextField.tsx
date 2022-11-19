@@ -14,7 +14,7 @@ const MessageTextField = (props: MessageTextFieldProps) => {
             name={props.name}
             onChange={props.changeHandler}
             variant={"outlined"}
-            size={"medium"}
+            size={"small"}
             margin={"dense"}
             multiline
         />

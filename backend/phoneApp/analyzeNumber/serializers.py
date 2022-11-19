@@ -4,19 +4,6 @@ from rest_framework import serializers
 # import model from models.py
 from .models import PhoneMessageModel
 
-# Create a model serializer
-class GeeksSerializer(serializers.HyperlinkedModelSerializer):
-	# specify model and fields
-	class Meta:
-		model = PhoneMessageModel
-		fields = ('phoneNumber', 'message')
-  
-  
-  
-  
-from rest_framework import serializers
-from snippets.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES
-
 
 class PhoneMessageSerializer(serializers.Serializer):
     PhoneNumber = serializers.IntegerField(required=True)
