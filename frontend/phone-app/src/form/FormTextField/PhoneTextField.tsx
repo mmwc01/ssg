@@ -1,13 +1,13 @@
 import React from "react";
 import {TextField} from "@material-ui/core";
 
-type FormTextFieldProps = {
+type PhoneTextFieldProps = {
     label: string,
     name: string,
     changeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
-const FormTextField = (props: FormTextFieldProps) => {
+const PhoneTextField = (props: PhoneTextFieldProps) => {
     return (
         <TextField
             label={props.label}
@@ -20,4 +20,4 @@ const FormTextField = (props: FormTextFieldProps) => {
     );
 }
 
-export default FormTextField
+export default PhoneTextField
