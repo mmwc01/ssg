@@ -3,6 +3,9 @@ import {createStyles, makeStyles, Typography,Paper,Button, CircularProgress} fro
 
 import PhoneTextField from "./FormTextField/PhoneTextField";
 import MessageTextField from "./FormTextField/MessageTextField";
+import ErrorComponent from "../error-page/Error";
+import ResponseComponent from "../response/ResponseComponent";
+import { truncate } from "fs";
 
 const useStyles = makeStyles(() => createStyles({
     form : {
@@ -39,8 +42,13 @@ const PhoneMessageForm = () => {
         phoneNumber : "",
         message : "",
     });
-    const [loading, setLoading] = useState(false);
-    const [response, setResponse] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [response, setResponse] = useState<Values>({
+        country : "",
+        region : "",
+        operator: "",
+        prefix: null
+    });
 
     const handleChange = (event : React.ChangeEvent<HTMLInputElement>) => {
         setValues({...values,[event.target.name] : event.target.value});
@@ -50,11 +58,18 @@ const PhoneMessageForm = () => {
       event.preventDefault();
       setLoading(true);
         try {
-          let res = await fetch("http://127.0.0.1:8000/phone-message/api", { //change url into a constant to be injected
+          let res = await fetch(process.env.REACT_APP_API_URL!, {
             method: "POST",
-            body: JSON.stringify(values),
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "applicaton/json",
+              },
+            body: JSON.stringify({
+                "phoneNumber": +values.phoneNumber,
+                "message": values.message
+            }),
           });
-          setResponse(await res.json());
+        //   setResponse(await res.json()); TODO Set response here
           if (res.status === 200) {
             console.log('success!');
           } else {
@@ -69,6 +84,10 @@ const PhoneMessageForm = () => {
         console.log('reconverted message: ');
         const reformattedMessage = analyzeMessage(values.message);
         console.log(reformattedMessage);
+        setValues({
+            phoneNumber : "",
+            message : "",
+        });
     }
 
     const analyzeMessage = (message: string) => {
@@ -86,7 +105,7 @@ const PhoneMessageForm = () => {
     }
 
     return (
-        loading ? <CircularProgress /> :
+        loading ? <ResponseComponent data={response} /> :
         <Paper className={classes.container}>
             <Typography variant={"h4"} className={classes.title}>Phone Number Analysis and Message Restyling</Typography>
             <form onSubmit={(e) => handleSubmit(e)} className={classes.form}>
