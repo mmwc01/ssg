@@ -50,7 +50,7 @@ const PhoneMessageForm = () => {
       event.preventDefault();
       setLoading(true);
         try {
-          let res = await fetch("https://httpbin.org/post", { //change url here when API is up and running
+          let res = await fetch("http://127.0.0.1:8000/phone-message/api", { //change url into a constant to be injected
             method: "POST",
             body: JSON.stringify(values),
           });
