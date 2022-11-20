@@ -19,13 +19,17 @@ class PhoneMessageDataAnalysis(object):
         
         if country in unique_list_of_countries:
             filtered_prefixes_by_country = [p for p in json_array if p.country == country]
-            #sort array by length of prefix
+            #sort array by length of prefix, this rendition runs in O(n*m)
+            #can be done in linear time, so rework this
             sorted(filtered_prefixes_by_country, key=len)
             counter = 0
             matched
-            #parse through sorted array and perform the matching
-            for c in PhoneNumber:
-                if filtered_prefixes_by_country[counter] == PhoneNumber[:counter+1]:
+            #parse through sorted array and perform the matching, also O(n*m)
+            for c in filtered_prefixes_by_country:
+                current_prefix = filtered_prefixes_by_country[counter]
+                if len(current_prefix) > len(PhoneNumber):
+                    break
+                elif current_prefix == PhoneNumber[:current_prefix.len]:
                     matched = filtered_prefixes_by_country[counter]
                 counter+=1 
             if matched.len > 1: #something matched
