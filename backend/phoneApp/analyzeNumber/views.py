@@ -14,12 +14,12 @@ class PhoneMessageApiView(APIView):
     # 2. Create
     def post(self, request, *args, **kwargs):
         data = {
-            'task': request.data.get('task'), 
-            'completed': request.data.get('completed'), 
-            'user': request.user.id
+            'phoneNumber': request.data.get('phoneNumber'), 
+            'message': request.data.get('message')
         }
         serializer = PhoneMessageSerializer(data=data)
         if serializer.is_valid():
+            
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
