@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import PhoneMessageModel
 from .serializers import PhoneMessageSerializer
+from .services import analyze_phone, convert_message
 
 class PhoneMessageApiView(APIView):
     # 1. List all
@@ -19,7 +20,8 @@ class PhoneMessageApiView(APIView):
         }
         serializer = PhoneMessageSerializer(data=data)
         if serializer.is_valid():
-            
+            phone_object = analyze_phone(data['phoneNumber'])
+            new_message = convert_message(data['message'])
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 

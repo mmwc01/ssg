@@ -30,7 +30,8 @@ interface ResponseProps {
         country: string;
         region: string;
         operator: string;
-        prefix: number
+        prefix: number;
+        message: string;
     }
   }
 
@@ -40,13 +41,15 @@ const ResponseComponent = ({data}: ResponseProps) => {
     return (
         <Paper className={classes.container}>
             <Typography variant={"h5"}>Country:</Typography>
-            <Typography variant={"h6"} className={classes.title}>{data.country}</Typography>
+            <Typography variant={"subtitle1"} className={classes.title}>{data.country}</Typography>
             <Typography variant={"h5"}>Region:</Typography>
-            <Typography variant={"h6"} className={classes.title}>{data.region}</Typography>
+            <Typography variant={"subtitle1"} className={classes.title}>{data.region}</Typography>
             <Typography variant={"h5"}>Operator:</Typography>
-            <Typography variant={"h6"} className={classes.title}>{data.operator}</Typography>
-            <Typography variant={"h4"}>Prefix:</Typography>
-            <Typography variant={"h6"} className={classes.title}>{data.prefix}</Typography>
+            <Typography variant={"subtitle1"} className={classes.title}>{data.operator}</Typography>
+            <Typography variant={"h5"}>Prefix:</Typography>
+            <Typography variant={"subtitle1"} className={classes.title}>{data.prefix === -1 ? '' : data.prefix}</Typography>
+            <Typography variant={"h5"}>Message:</Typography>
+            <Typography variant={"subtitle1"} className={classes.title}>{data.message}</Typography>
             <Button>Back</Button>
         </Paper>
     );

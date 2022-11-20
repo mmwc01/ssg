@@ -5,7 +5,7 @@ import PhoneTextField from "./FormTextField/PhoneTextField";
 import MessageTextField from "./FormTextField/MessageTextField";
 import ErrorComponent from "../error-page/Error";
 import ResponseComponent from "../response/ResponseComponent";
-import { truncate } from "fs";
+
 
 const useStyles = makeStyles(() => createStyles({
     form : {
@@ -35,19 +35,29 @@ type Values = {
     message : string,
 }
 
+type Response = {
+    country : string,
+    region : string,
+    operator: string,
+    prefix: number,
+    message: string,
+}
+
 const PhoneMessageForm = () => {
 
     const classes = useStyles();
     const [values,setValues] = useState<Values>({
-        phoneNumber : "",
-        message : "",
+        phoneNumber : '',
+        message : '',
     });
-    const [loading, setLoading] = useState(true);
-    const [response, setResponse] = useState<Values>({
-        country : "",
-        region : "",
-        operator: "",
-        prefix: null
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [response, setResponse] = useState<Response>({
+        country : '',
+        region : '',
+        operator: '',
+        prefix: -1,
+        message: '',
     });
 
     const handleChange = (event : React.ChangeEvent<HTMLInputElement>) => {
@@ -65,29 +75,28 @@ const PhoneMessageForm = () => {
                 "Content-Type": "applicaton/json",
               },
             body: JSON.stringify({
-                "phoneNumber": +values.phoneNumber,
+                "phoneNumber": values.phoneNumber,
                 "message": values.message
             }),
           });
         //   setResponse(await res.json()); TODO Set response here
           if (res.status === 200) {
             console.log('success!');
+            //TODO: SET ROUTE HERE
           } else {
             console.log('Some error occured');
           }
         } catch (err) {
-          console.log(err);
+            setError(true);
+            console.log(err);
         }
-        setLoading(false);
-        console.log(response);
-        console.log(values)
-        console.log('reconverted message: ');
-        const reformattedMessage = analyzeMessage(values.message);
-        console.log(reformattedMessage);
+        analyzeMessage(values.message);
         setValues({
             phoneNumber : "",
             message : "",
         });
+        console.log(response);
+        setLoading(false);
     }
 
     const analyzeMessage = (message: string) => {
@@ -101,11 +110,15 @@ const PhoneMessageForm = () => {
                 return '<a href={' + refactoredUrl + '}>url</a>';
             }
         );
-        return message;
+        console.log(message);
+        setResponse({
+            ...response, 
+            message: message
+          });
     }
 
     return (
-        loading ? <ResponseComponent data={response} /> :
+        error ? <ErrorComponent /> : loading ? <CircularProgress /> :
         <Paper className={classes.container}>
             <Typography variant={"h4"} className={classes.title}>Phone Number Analysis and Message Restyling</Typography>
             <form onSubmit={(e) => handleSubmit(e)} className={classes.form}>

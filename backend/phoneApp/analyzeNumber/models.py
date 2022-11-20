@@ -1,7 +1,7 @@
 from django.db import models
  
 class PhoneMessageModel(models.Model):
-    phoneNumber = models.BigIntegerField(default=0)
+    phoneNumber = models.TextField(default='')
     message = models.TextField()
  
     def __str__(self):

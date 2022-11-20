@@ -10,6 +10,7 @@ type PhoneTextFieldProps = {
 const PhoneTextField = (props: PhoneTextFieldProps) => {
     return (
         <TextField
+            defaultValue={'+'}
             label={props.label}
             name={props.name}
             onChange={props.changeHandler}
