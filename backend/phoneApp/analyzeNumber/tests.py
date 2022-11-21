@@ -8,8 +8,7 @@ class PhoneNumberAnalysisCase(TestCase):
         Animal.objects.create(name="cat", sound="meow")
 
     def test_animals_can_speak(self):
-        """Animals that can speak are correctly identified"""
-        lion = Animal.objects.get(name="lion")
-        cat = Animal.objects.get(name="cat")
+        phone_numbers = ['16479931111', '16475041263', '123489']
+        
         self.assertEqual(lion.speak(), 'The lion says "roar"')
         self.assertEqual(cat.speak(), 'The cat says "meow"')
