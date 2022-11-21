@@ -9,7 +9,7 @@ class PhoneMessageDataAnalysisService(object):
         phone_object['country'] = ""
         phone_object['region'] = ""
         phone_object['operator'] = ""
-        phone_object['matched_in_db'] = False
+        phone_object['matched_in_set'] = False
         #assumption that the prefix is the numbers that provide the country, region and provider data
         try:
             gb_number = phonenumbers.parse(PhoneNumber, None)

@@ -42,6 +42,7 @@ type Response = {
     operator: string,
     prefix: number,
     message: string,
+    matched_in_set: string,
 }
 
 const PhoneMessageForm = () => {
@@ -58,6 +59,8 @@ const PhoneMessageForm = () => {
         operator: '',
         prefix: -1,
         message: '',
+        matched_in_set: '',
+
     });
     const [error, setError] = useState(false);
 
@@ -83,18 +86,20 @@ const PhoneMessageForm = () => {
             method: "POST",
             headers: {
                 "Accept": "application/json",
-                "Content-Type": "applicaton/json",
+                "Content-Type": "application/json",
               },
             body: JSON.stringify({
                 "phoneNumber": values.phoneNumber,
                 "message": values.message
             }),
           });
-        //   setResponse(await res.json()); TODO Set response here
           if (res.status === 200) {
             console.log('success!');
+            const resp = await res.json();
+            setResponse(resp);
           } else {
             console.log('Some error occured');
+            navigate('/error', {replace: true});
           }
         } catch (err) {
             console.log(err);

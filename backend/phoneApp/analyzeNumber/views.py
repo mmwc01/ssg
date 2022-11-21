@@ -16,7 +16,7 @@ class PhoneMessageApiView(APIView):
             phone_object = PhoneMessageDataAnalysisService.analyze_phone(PhoneNumber=data['phoneNumber'])
             new_message = PhoneMessageDataAnalysisService.convert_message(original_message=data['message'])
             phone_object['message'] = new_message
-            return Response(phone_object, status=status.HTTP_201_CREATED)
+            return Response(phone_object, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
