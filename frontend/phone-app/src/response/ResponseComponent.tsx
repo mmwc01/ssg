@@ -1,5 +1,6 @@
 import React from "react";
 import {createStyles, makeStyles, Typography,Paper,Button} from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(() => createStyles({
     form : {
@@ -50,7 +51,11 @@ const ResponseComponent = ({data}: ResponseProps) => {
             <Typography variant={"subtitle1"} className={classes.title}>{data.prefix === -1 ? '' : data.prefix}</Typography>
             <Typography variant={"h5"}>Message:</Typography>
             <Typography variant={"subtitle1"} className={classes.title}>{data.message}</Typography>
-            <Button>Back</Button>
+            <Link to="/">
+                <Button>
+                    back
+                </Button>
+            </Link>
         </Paper>
     );
 }

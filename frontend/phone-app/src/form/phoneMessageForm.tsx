@@ -3,8 +3,9 @@ import {createStyles, makeStyles, Typography,Paper,Button, CircularProgress} fro
 
 import PhoneTextField from "./FormTextField/PhoneTextField";
 import MessageTextField from "./FormTextField/MessageTextField";
-import ErrorComponent from "../error-page/Error";
+import { isValidPhoneNumber } from 'libphonenumber-js'
 import ResponseComponent from "../response/ResponseComponent";
+import { useNavigate } from "react-router-dom";
 
 
 const useStyles = makeStyles(() => createStyles({
@@ -44,14 +45,13 @@ type Response = {
 }
 
 const PhoneMessageForm = () => {
-
+    const navigate = useNavigate();
     const classes = useStyles();
     const [values,setValues] = useState<Values>({
         phoneNumber : '',
         message : '',
     });
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
     const [response, setResponse] = useState<Response>({
         country : '',
         region : '',
@@ -59,9 +59,20 @@ const PhoneMessageForm = () => {
         prefix: -1,
         message: '',
     });
+    const [error, setError] = useState(false);
+
+    //validating that this is a valid phone number before calling the api
+    const validateValues = (phoneNumber: string) => {
+        setError(!isValidPhoneNumber(phoneNumber));
+    }
 
     const handleChange = (event : React.ChangeEvent<HTMLInputElement>) => {
         setValues({...values,[event.target.name] : event.target.value});
+    }
+
+    const handlePhoneChange = (event : React.ChangeEvent<HTMLInputElement>) => {
+        handleChange(event);
+        validateValues(event.target.value);
     }
 
     const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
@@ -82,13 +93,12 @@ const PhoneMessageForm = () => {
         //   setResponse(await res.json()); TODO Set response here
           if (res.status === 200) {
             console.log('success!');
-            //TODO: SET ROUTE HERE
           } else {
             console.log('Some error occured');
           }
         } catch (err) {
-            setError(true);
             console.log(err);
+            navigate('/error', {replace: true});
         }
         analyzeMessage(values.message);
         setValues({
@@ -115,14 +125,15 @@ const PhoneMessageForm = () => {
             ...response, 
             message: message
           });
+          console.log(response);
     }
 
     return (
-        error ? <ErrorComponent /> : loading ? <CircularProgress /> :
+        loading ? <CircularProgress /> :
         <Paper className={classes.container}>
             <Typography variant={"h4"} className={classes.title}>Phone Number Analysis and Message Restyling</Typography>
             <form onSubmit={(e) => handleSubmit(e)} className={classes.form}>
-                <PhoneTextField changeHandler={handleChange} label={"Phone Number"} name={"phoneNumber"}/>
+                <PhoneTextField error={error} changeHandler={handlePhoneChange} label={"Phone Number"} name={"phoneNumber"}/>
                 <MessageTextField changeHandler={handleChange} label={"Message"} name={"message"}/>
                 <Button type={"submit"} variant={"contained"} className={classes.button}>Submit</Button>
             </form>

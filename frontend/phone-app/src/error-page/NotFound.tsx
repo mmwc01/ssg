@@ -26,13 +26,13 @@ const useStyles = makeStyles(() => createStyles({
     }
 }))
 
-const ErrorComponent = () => {
+const PageNotFound= () => {
 
     const classes = useStyles();
 
     return (
         <Paper className={classes.container}>
-            <Typography variant={"h4"} className={classes.title}>Error processing Information. Please try again.</Typography>
+            <Typography variant={"h4"} className={classes.title}>Page Not Found</Typography>
             <Link to="/">
                 <Button>
                     back
@@ -42,4 +42,4 @@ const ErrorComponent = () => {
     );
 }
 
-export default ErrorComponent;
+export default PageNotFound;
