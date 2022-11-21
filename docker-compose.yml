@@ -1,6 +1,6 @@
 services:
   api:
-    build: ./backend       
+    build: ./backend/phoneApp       
     ports:
       - "8000:8000"
     volumes:
@@ -11,5 +11,3 @@ services:
     build: ./frontend/phone-app
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/frontend

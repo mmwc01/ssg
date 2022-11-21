@@ -1,14 +1,21 @@
 # Create your tests here.
 from django.test import TestCase
-from myapp.models import Animal
+from rest_framework.test import APIRequestFactory, APITestCase
 
-class PhoneNumberAnalysisCase(TestCase):
-    def setUp(self):
-        Animal.objects.create(name="lion", sound="roar")
-        Animal.objects.create(name="cat", sound="meow")
-
-    def test_animals_can_speak(self):
-        phone_numbers = ['16479931111', '16475041263', '123489']
+class BasicTest(APITestCase):
+    def test_get_all_booking(self):
+        booking_date = date.today() + timedelta(days=10)
+        response = self.client.get(f'/parking/parkinglot/?=${booking_date}')
+        self.assertEqual(response.json()['message'], "success")
         
-        self.assertEqual(lion.speak(), 'The lion says "roar"')
-        self.assertEqual(cat.speak(), 'The cat says "meow"')
+    def test_single_booking(self):
+        booking_date = date.today() + timedelta(days=10)
+        data={
+            
+            "name":"ed",
+            "license_plate_number":"ed52",
+            "date":f"{booking_date}"   
+        }
+        response = self.client.post('/parking/parkinglot/',data)
+        print(response.json())
+        self.assertEqual(response.json()['message'], 'sucessfully created')

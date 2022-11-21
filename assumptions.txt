@@ -1,0 +1,15 @@
+-The definition of prefix of a phone number is very different from what is presented here (see https://www.wikiwand.com/en/Telephone_prefix), 
+    and depending on where the number is from, the length of the prefix can vary (even within countries),
+    so assumed that the prefix is the numbers required to provide country, region and provider in the response body. 
+
+-Assumed the data.json lookup for the prefix takes precedence
+
+-Assumed data.json region, country and operator are accurate (so should coincide with any phone number library lookups)
+
+-Assumed the inputted number is a valid phone number (hence the frontend and api checks)
+
+-Assumed we aren't saving anything into a db for a simple calculated response app
+
+-I think this app would've sufficed without a backend; the calculations and such could've all been done 
+    in the frontend with frontend libraries and it would've been faster.
+

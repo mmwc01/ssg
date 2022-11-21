@@ -5,6 +5,8 @@ from urlextract import URLExtract
 
 class PhoneMessageDataAnalysisService(object):
     def analyze_phone(PhoneNumber):
+        if not PhoneNumber.startswith('+'):
+            PhoneNumber = '+' + PhoneNumber
         phone_object = dict()
         phone_object['country'] = ""
         phone_object['region'] = ""
